@@ -38,7 +38,7 @@ class BasketPricer:
 
     def totals(self):
         subtotal, discount = self.subtotal(), self.discount()
-        total = subtotal - discount
+        total = round(subtotal - discount, 2)
         if total < 0.0:
             raise NegativePriceException
         return subtotal, discount, total
@@ -48,4 +48,15 @@ class BasketPricer:
 
     def discount(self):
         return sum(offer.compute_discount(self.basket, self.catalogue) for offer in self.offers)
-            
+
+
+class BuyXGetYFree(Offer):
+    def __init__(self, item_name, x, y):
+        self.item_name = item_name
+        self.x = x
+        self.y = y
+
+    def compute_discount(self, basket: Basket, catalogue: Dict[str, float]):
+        qty = basket.items[self.item_name]
+        return (qty // (self.x + self.y)) * self.y * catalogue[self.item_name]
+
