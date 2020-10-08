@@ -47,7 +47,7 @@ class BasketPricer:
         return round(sum(float(qty) * self.catalogue[item] for item, qty in self.basket.items.items()), 2)
 
     def discount(self):
-        return sum(offer.compute_discount(self.basket, self.catalogue) for offer in self.offers)
+        return round(sum(offer.compute_discount(self.basket, self.catalogue) for offer in self.offers), 2)
 
 
 class BuyXGetYFree(Offer):
@@ -60,3 +60,12 @@ class BuyXGetYFree(Offer):
         qty = basket.items[self.item_name]
         return (qty // (self.x + self.y)) * self.y * catalogue[self.item_name]
 
+
+class Discount(Offer):
+    def __init__(self, item_name, discount):
+        self.item_name = item_name
+        self.discount = discount
+
+    def compute_discount(self, basket:Basket, catalogue: Dict[str, float]):
+        qty = basket.items[self.item_name]
+        return qty * self.discount * catalogue[self.item_name]
