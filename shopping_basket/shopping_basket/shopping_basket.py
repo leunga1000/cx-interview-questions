@@ -23,7 +23,7 @@ class Basket:
 
 class Offer:
     def compute_discount(self, basket: Basket, catalogue: Dict[str, float]):
-        pass
+        return 0.0
 
 
 class BasketPricer:
@@ -44,7 +44,7 @@ class BasketPricer:
         return subtotal, discount, total
 
     def subtotal(self):
-        return sum(qty * self.catalogue[item] for item, qty in self.basket.items.items())
+        return round(sum(float(qty) * self.catalogue[item] for item, qty in self.basket.items.items()), 2)
 
     def discount(self):
         return sum(offer.compute_discount(self.basket, self.catalogue) for offer in self.offers)

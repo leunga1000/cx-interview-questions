@@ -26,3 +26,24 @@ def test_single_item():
     assert subtotal == 0.99
     assert discount == 0.0
     assert total == 0.99
+
+
+def test_multiple_of_one_item():
+    basket = Basket({'baked_beans': 2})
+    catalogue = {'baked_beans': 0.99}
+    basket_pricer = BasketPricer(basket=basket, catalogue=catalogue, offers=[])
+    subtotal, discount, total = basket_pricer.totals()
+    assert subtotal == 1.98
+    assert discount == 0.0
+    assert total == 1.98
+
+
+def test_multiple_items():
+    basket = Basket({'baked_beans': 2, 'biscuits': 1})
+    catalogue = {'baked_beans': 0.99, 'biscuits': 1.20}
+    basket_pricer = BasketPricer(basket=basket, catalogue=catalogue, offers=[])
+    subtotal, discount, total = basket_pricer.totals()
+    print(subtotal, discount, total)
+    assert subtotal == 3.18
+    assert discount == 0.0
+    assert total == 3.18
