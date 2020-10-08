@@ -1,4 +1,4 @@
-from shopping_basket.shopping_basket import Basket, BuyXGetYFree, BasketPricer, DiscountPercent
+from shopping_basket import Basket, BasketPricer, BuyXGetYFree, DiscountPercent
 
 if __name__ == "__main__":
     basket = Basket({"baked_beans": 3,

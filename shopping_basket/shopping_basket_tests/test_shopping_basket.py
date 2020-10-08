@@ -1,6 +1,6 @@
 # Tests for shopping basket
 
-from shopping_basket.shopping_basket import (
+from shopping_basket import (
     Basket,
     BasketPricer,
     BuyXGetYFree,
