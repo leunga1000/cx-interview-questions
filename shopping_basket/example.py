@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from shopping_basket import Basket, BasketPricer, BuyXGetYFree, DiscountPercent
 
 if __name__ == "__main__":
