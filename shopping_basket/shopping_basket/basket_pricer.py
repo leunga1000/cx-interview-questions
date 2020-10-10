@@ -1,3 +1,5 @@
+""" BasketPricer -  calculates the undiscounted value of the basket, the discount, and the final total. """
+
 from shopping_basket.shopping_basket import Basket
 from shopping_basket.offers import Offer
 from typing import Dict, List
@@ -9,6 +11,12 @@ class NegativePriceException(Exception):
     pass
 
 class BasketPricer:
+    """ Component that prices a Basket by calculating applicable discounts and subtracting from subtotal.
+    Subtotal - sum of price * quantity of each item in basket
+    Discount - sum of the individual discounts calculated by each Offer
+    Total - Subtotal - Discount
+    totals() - returns all of the above
+    formatted_totals - returns totals() formatted as text"""
     def __init__(
         self, basket: Basket, catalogue: Dict[str, float], offers: List[Offer]
     ):

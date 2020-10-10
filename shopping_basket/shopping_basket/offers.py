@@ -1,14 +1,18 @@
+""" Implementation of basket offers. Each is a subclass of the abstract class Offer. """
+
 from shopping_basket.shopping_basket import Basket
 from typing import Dict, Set
 from operator import itemgetter
+from abc import ABC, abstractmethod
 
 class OfferTermsException(Exception):
     pass
 
-class Offer:
+class Offer(ABC):
     # Base class for offers, compute_discount will be called for each offer.
     # Offer.compute_discount takes basket and catalogue and returns applicable discount
-    def compute_discount(self, basket: Basket, catalogue: Dict[str, float]):
+    @abstractmethod
+    def compute_discount(self, basket: Basket, catalogue: Dict[str, float]) -> float:
         return 0.0
 
 
@@ -18,7 +22,7 @@ class BuyXGetYFree(Offer):
         self.x = x
         self.y = y
 
-    def compute_discount(self, basket: Basket, catalogue: Dict[str, float]):
+    def compute_discount(self, basket: Basket, catalogue: Dict[str, float]) -> float:
         qty = basket.items[self.item_name]
         return (qty // (self.x + self.y)) * self.y * catalogue[self.item_name]
 
@@ -28,7 +32,7 @@ class DiscountPercent(Offer):
         self.item_name = item_name
         self.discount = discount_percent / 100.0
 
-    def compute_discount(self, basket: Basket, catalogue: Dict[str, float]):
+    def compute_discount(self, basket: Basket, catalogue: Dict[str, float]) -> float:
         qty = basket.items[self.item_name]
         return qty * self.discount * catalogue[self.item_name]
 
@@ -41,7 +45,7 @@ class BuyNGetCheapestAFree(Offer):
         if n < a:
             raise OfferTermsException
 
-    def compute_discount(self, basket: Basket, catalogue: Dict[str, float]):
+    def compute_discount(self, basket: Basket, catalogue: Dict[str, float]) -> float:
         # Get list of Tuples with (item_name, price) for each individual item in basket
         items_prices = [
             (item, catalogue[item])
