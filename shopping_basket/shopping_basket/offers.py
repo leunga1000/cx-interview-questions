@@ -46,12 +46,12 @@ class BuyNGetCheapestAFree(Offer):
             raise OfferTermsException
 
     def compute_discount(self, basket: Basket, catalogue: Dict[str, float]) -> float:
-        # Get list of Tuples with (item_name, price) for each individual item in basket
-        items_prices = [
+        # Get sequence of Tuples with (item_name, price) for each individual item in basket
+        items_prices = (
             (item, catalogue[item])
             for item in basket.get_individual_items()
             if item in self.items_in_offer
-        ]
+        )
         sorted_items_prices = sorted(items_prices, key=itemgetter(1), reverse=True)
         # Now go through and calculate discount per N batch, remove that batch and pass remaining list
         # into method recursively.
